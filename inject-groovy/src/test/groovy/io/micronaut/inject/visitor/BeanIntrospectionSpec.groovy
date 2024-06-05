@@ -2212,10 +2212,16 @@ abstract class Test {
     String author
 }
 """)
-
         expect:
         beanIntrospection != null
         beanIntrospection.getBeanProperties().size() == 2
+
+        when:
+        beanIntrospection.instantiate()
+
+        then:
+        def e = thrown(InstantiationException)
+        e.message == 'No default constructor exists'
     }
 
     void "test targeting abstract class with @Introspected(classes = "() {
